@@ -374,6 +374,7 @@ function createGradingPanel(element, acid, studentId, multiGrader) {
                 jQuery(".grade", element).html(data.grade);
                 jQuery(".comment", element).html(data.comment);
                 calculateTotals(studentId);
+               
             },
         });
     }
@@ -1754,6 +1755,8 @@ function renderGradingComponents(sid, divid) {
     let div = document.createElement("div");
     let grade = document.createElement("input");
     let gradelabel = document.createElement("label");
+    let url = new URL(window.location.href);
+    let assignmentid = url.searchParams.get("assignment_id");
     gradelabel.for = "grade-input";
     $(gradelabel).text("Grade");
     grade.type = "text";
@@ -1775,6 +1778,7 @@ function renderGradingComponents(sid, divid) {
             type: "POST",
             dataType: "JSON",
             data: {
+                assignmentid: assignmentid,
                 acid: divid,
                 sid: sid,
                 grade: $(grade).val(),
@@ -1791,11 +1795,10 @@ function renderGradingComponents(sid, divid) {
     div.appendChild(commentlabel);
     div.appendChild(comment);
     div.appendChild(butt);
-
     return div;
 }
 
-// Called by the "Preview" button of the "Write" panel.
+// Called by the "Preview" button ofs the "Write" panel.
 function preview_question(form, preview_div) {
     if (arguments.length == 1) {
         preview_div = "component-preview";
